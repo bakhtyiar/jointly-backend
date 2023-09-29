@@ -11,9 +11,7 @@ import { ChatsModule } from './chats/chats.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(
-      'mongodb+srv://alex:alex123Pass@cluster0.b9wb9.mongodb.net/?retryWrites=true&w=majority',
-    ),
+    MongooseModule.forRoot(process.env.MONGO_URI),
     CommunitiesModule,
     UserModule,
     PermissionsModule,
