@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Schema as SchemaMongoose, Types } from 'mongoose';
 import {
   IsArray,
+  IsBoolean,
   IsEmail,
   IsString,
   IsStrongPassword,
@@ -68,6 +69,10 @@ export class User {
   @ValidateNested({ each: true })
   @Prop({ type: [{ type: SchemaMongoose.Types.ObjectId, ref: 'Community' }] })
   communities: Types.ObjectId[];
+
+  @IsBoolean()
+  @Prop()
+  isDeleted: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
