@@ -1,9 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Schema as SchemaMongoose, Types } from 'mongoose';
-import { User } from '../../user/schemas/user.schema';
+import { User } from '@src/user/schemas/user.schema';
 import {
   ArrayMinSize,
   IsArray,
+  IsBoolean,
   IsNotEmpty,
   IsString,
   ValidateNested,
@@ -60,6 +61,10 @@ export class Community {
   @Type(() => User)
   @Prop([{ type: SchemaMongoose.Types.ObjectId, ref: 'Chat' }])
   chats: Types.ObjectId[];
+
+  @IsBoolean()
+  @Prop()
+  isDeleted: boolean;
 }
 
 export const CommunitySchema = SchemaFactory.createForClass(Community);
