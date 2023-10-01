@@ -4,22 +4,17 @@ import {
   ArrayMaxSize,
   ArrayMinSize,
   IsArray,
+  IsBoolean,
   IsDate,
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { NoEmptyString } from '../../utilities/validators/NoEmptyString';
+import { NoEmptyString } from '@src/utilities/validators/NoEmptyString';
 
 export type MessageDocument = HydratedDocument<Message>;
 
 @Schema()
 export class Message {
-  @Prop({
-    required: true,
-    type: { type: SchemaMongoose.Types.ObjectId, ref: 'Chat' },
-  })
-  inChatId: Types.ObjectId;
-
   @IsArray()
   @ValidateNested({ each: true })
   @ArrayMinSize(1)
@@ -52,6 +47,10 @@ export class Message {
   @IsArray()
   @Prop({ type: [{ type: SchemaMongoose.Types.ObjectId, ref: 'Reaction' }] })
   reactions: Types.ObjectId[];
+
+  @IsBoolean()
+  @Prop()
+  isDeleted: boolean;
 }
 
 export const MessageSchema = SchemaFactory.createForClass(Message);
