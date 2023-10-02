@@ -1,9 +1,9 @@
-import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 import { v4 as uuid } from 'uuid';
 import { extname } from 'path';
+import { DiskStorageOptions } from 'multer';
 
-export const fileNameGenerator: MulterOptions['filename'] = (
-  req: Request,
+export const fileNameGenerator: DiskStorageOptions['filename'] = (
+  req: Express.Request,
   file: Express.Multer.File,
   cb: (error: Error | null, filename: string) => void,
 ) => {
