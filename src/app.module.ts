@@ -8,9 +8,11 @@ import { PermissionsModule } from './permissions/permissions.module';
 import { MessagesModule } from './messages/messages.module';
 import { ReactionsModule } from './reactions/reactions.module';
 import { ChatsModule } from './chats/chats.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ envFilePath: ['.env.local', '.env'] }),
     MongooseModule.forRoot(process.env.MONGO_URI),
     CommunitiesModule,
     UserModule,
