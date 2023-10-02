@@ -1,5 +1,6 @@
 import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 import { FileFilterCallback } from 'multer';
+import mime from 'mime';
 
 export const fileFilter: MulterOptions['fileFilter'] = (
   req: Request,
