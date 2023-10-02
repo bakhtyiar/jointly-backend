@@ -26,7 +26,7 @@ export class MessagesController {
   @UseInterceptors(
     FilesInterceptor('files', 10, {
       storage: diskStorage({
-        destination: '@data/files',
+        destination: 'data/files',
         filename: fileNameGenerator,
       }),
       fileFilter: fileFilter,
