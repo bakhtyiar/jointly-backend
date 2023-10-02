@@ -6,6 +6,7 @@ import {
   IsArray,
   IsBoolean,
   IsDate,
+  IsOptional,
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
@@ -20,30 +21,31 @@ export class Message {
   @ArrayMinSize(1)
   @ArrayMaxSize(46)
   @Type(() => String)
-  @Prop({ required: true, validate: [NoEmptyString] })
+  @Prop({ validate: [NoEmptyString] })
   content: [string];
 
-  @Prop({
-    required: true,
-    type: { type: SchemaMongoose.Types.ObjectId, ref: 'User' },
-  })
+  @Prop({ type: SchemaMongoose.Types.ObjectId, ref: 'User' })
   author: Types.ObjectId;
 
   @IsDate()
-  @Prop({ required: true })
+  @Prop()
   creationTime: Date;
 
+  @IsOptional()
   @IsDate()
   @Prop()
   lastEditTime: Date;
 
+  @IsOptional()
   @Prop({ type: { type: SchemaMongoose.Types.ObjectId, ref: 'Message' } })
   replyTo: Types.ObjectId[];
 
+  @IsOptional()
   @IsArray()
   @Prop({ type: [{ type: SchemaMongoose.Types.ObjectId, ref: 'Message' }] })
   replies: Types.ObjectId[];
 
+  @IsOptional()
   @IsArray()
   @Prop({ type: [{ type: SchemaMongoose.Types.ObjectId, ref: 'Reaction' }] })
   reactions: Types.ObjectId[];

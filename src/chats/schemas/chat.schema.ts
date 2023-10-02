@@ -3,6 +3,7 @@ import { HydratedDocument, Schema as SchemaMongoose, Types } from 'mongoose';
 import {
   IsArray,
   IsBoolean,
+  IsOptional,
   IsString,
   MaxLength,
   MinLength,
@@ -20,9 +21,10 @@ export class Chat {
   @MaxLength(50, {
     message: 'Name is too long. Maximum length is $constraint1',
   })
-  @Prop({ required: true })
+  @Prop()
   name: string;
 
+  @IsOptional()
   @IsString()
   @MinLength(1, {
     message: 'Description is too short. Minimal length is $constraint1',
@@ -34,11 +36,11 @@ export class Chat {
   description: string;
 
   @Prop({
-    required: true,
     type: { type: SchemaMongoose.Types.ObjectId, ref: 'Chat' },
   })
   inCommunityId: Types.ObjectId;
 
+  @IsOptional()
   @IsArray()
   @ValidateNested({ each: true })
   @Prop({ type: [{ type: SchemaMongoose.Types.ObjectId, ref: 'Message' }] })
