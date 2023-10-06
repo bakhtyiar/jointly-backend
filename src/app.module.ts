@@ -9,10 +9,19 @@ import { MessagesModule } from './messages/messages.module';
 import { ReactionsModule } from './reactions/reactions.module';
 import { ChatsModule } from './chats/chats.module';
 import { ConfigModule } from '@nestjs/config';
+import { join } from 'path';
+import { ServeStaticModule } from '@nestjs/serve-static';
+
+// todo: implement authentication
+// todo: implement guards for some routes and actions
+// todo: implement auth policy for sensitive and not sensitive actions
 
 @Module({
   imports: [
     ConfigModule.forRoot({ envFilePath: ['.env.local', '.env'] }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'data', 'files'),
+    }),
     MongooseModule.forRoot(process.env.MONGO_URI),
     CommunitiesModule,
     UserModule,
