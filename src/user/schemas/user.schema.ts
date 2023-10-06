@@ -4,8 +4,8 @@ import {
   IsArray,
   IsBoolean,
   IsEmail,
+  IsOptional,
   IsString,
-  IsStrongPassword,
   MaxLength,
   MinLength,
   ValidateNested,
@@ -13,8 +13,12 @@ import {
 
 export type UserDocument = HydratedDocument<User>;
 
-@Schema()
+@Schema({
+  autoIndex: true, // <--
+  autoCreate: true,
+})
 export class User {
+  @IsString()
   @MinLength(5, {
     message: 'Login is too short. Minimal length is $constraint1',
   })
@@ -24,6 +28,8 @@ export class User {
   @Prop({ required: true, unique: true })
   login: string;
 
+  @IsOptional()
+  @IsString()
   @MinLength(1, {
     message: 'Name is too short. Minimal length is $constraint1',
   })
@@ -33,31 +39,35 @@ export class User {
   @Prop()
   name: string;
 
-  @IsStrongPassword()
-  @Prop({ required: true, unique: true })
+  @IsString()
+  @MinLength(8)
+  @Prop({ required: true })
   password: string;
 
+  @IsOptional()
   @IsString()
   @Prop()
   avatar: string;
 
+  @IsOptional()
+  @IsString()
   @MinLength(1, {
     message: 'Secret question is too short. Minimal length is $constraint1',
   })
   @MaxLength(50, {
     message: 'Secret question is too long. Maximum length is $constraint1',
   })
-  @IsString()
   @Prop()
   secretQuestion: string;
 
+  @IsOptional()
+  @IsString()
   @MinLength(1, {
     message: 'Secret answer is too short. Minimal length is $constraint1',
   })
   @MaxLength(50, {
     message: 'Secret answer is too long. Maximum length is $constraint1',
   })
-  @IsString()
   @Prop()
   secretAnswer: string;
 
@@ -65,11 +75,13 @@ export class User {
   @Prop({ required: true, unique: true })
   email: string;
 
+  @IsOptional()
   @IsArray()
   @ValidateNested({ each: true })
   @Prop({ type: [{ type: SchemaMongoose.Types.ObjectId, ref: 'Community' }] })
   communities: Types.ObjectId[];
 
+  @IsOptional()
   @IsBoolean()
   @Prop()
   isDeleted: boolean;

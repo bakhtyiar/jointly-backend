@@ -17,6 +17,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { fileNameGenerator } from '@src/utilities/generators/fileNameGenerator';
 import { fileFilter } from '@src/utilities/validators/fileValidator';
+import { LoginUserDto } from '@src/user/dto/login-user.dto';
 
 @Controller('user')
 export class UserController {
@@ -25,6 +26,11 @@ export class UserController {
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
+  }
+
+  @Post('login')
+  login(@Body() loginUserDto: LoginUserDto) {
+    return this.userService.login(loginUserDto);
   }
 
   @Get()
@@ -43,7 +49,6 @@ export class UserController {
   }
 
   // noinspection TypeScriptValidateTypes
-  @Post()
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
