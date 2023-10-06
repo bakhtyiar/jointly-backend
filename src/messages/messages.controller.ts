@@ -20,7 +20,7 @@ import { fileNameGenerator } from '@src/utilities/generators/fileNameGenerator';
 @Controller('messages')
 export class MessagesController {
   constructor(private readonly messagesService: MessagesService) {}
-
+  // todo: implement fix validation types
   // noinspection TypeScriptValidateTypes
   @Post()
   @UseInterceptors(
@@ -36,19 +36,23 @@ export class MessagesController {
     @Body() createMessageDto: CreateMessageDto,
     @UploadedFiles() files: Array<Express.Multer.File>,
   ) {
+    // todo: implement
     return this.messagesService.create(createMessageDto);
   }
 
   @Get()
   findAll() {
+    // todo: implement
     return this.messagesService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
+    // todo: implement
     return this.messagesService.findOne(+id);
   }
 
+  // todo: guard. only author can do this:
   // noinspection TypeScriptValidateTypes
   @Patch(':id')
   @UseInterceptors(
@@ -65,11 +69,14 @@ export class MessagesController {
     @Body() updateMessageDto: UpdateMessageDto,
     @UploadedFiles() files: Array<Express.Multer.File>,
   ) {
+    // todo: implement
     return this.messagesService.update(+id, updateMessageDto);
   }
 
+  // todo: guard. only author, moder, admin, superadmin can do this:
   @Delete(':id')
   remove(@Param('id') id: string) {
+    // todo: implement
     return this.messagesService.remove(+id);
   }
 }

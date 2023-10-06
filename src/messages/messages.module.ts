@@ -3,7 +3,7 @@ import { MessagesService } from './messages.service';
 import { MessagesController } from './messages.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Message, MessageSchema } from './schemas/message.schema';
-
+// todo: implement filling data to db
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Message.name, schema: MessageSchema }]),
