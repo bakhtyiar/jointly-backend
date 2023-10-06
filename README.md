@@ -1,3 +1,10 @@
+<h1 style="text-align: center">
+Project isn't finished
+</h1>
+<br/>
+<hr/>
+<br/>
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
