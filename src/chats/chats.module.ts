@@ -3,7 +3,7 @@ import { ChatsService } from './chats.service';
 import { ChatsController } from './chats.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Chat, ChatSchema } from './schemas/chat.schema';
-
+// todo: fill data to db
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Chat.name, schema: ChatSchema }]),
