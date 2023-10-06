@@ -3,7 +3,7 @@ import { CommunitiesService } from './communities.service';
 import { CommunitiesController } from './communities.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Community, CommunitySchema } from './schemas/community.schema';
-
+// todo: fill data to db
 @Module({
   imports: [
     MongooseModule.forFeature([
