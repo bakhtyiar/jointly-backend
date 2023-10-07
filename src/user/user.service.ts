@@ -10,6 +10,7 @@ import { User } from '@src/user/schemas/user.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { LoginUserDto } from '@src/user/dto/login-user.dto';
 import { comparePassword } from '@src/utilities/hashing/hashingPassword';
+import { VerifyUserDto } from '@src/user/dto/verify-user.dto';
 
 @Injectable()
 export class UserService {
@@ -48,44 +49,63 @@ export class UserService {
     return users;
   }
 
-  findOne(id: number) {
-    // todo: implement
-    return `This action returns a #${id} user`;
+  async findOneById(id: string) {
+    const users = await this.userModel.findById(id, '-password').exec();
+    return users;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    // todo: implement
-    return `This action updates a #${id} user`;
+  async findOneForVerifying(verifyUserDto: VerifyUserDto) {
+    const user = await this.userModel
+      .findOne(
+        {
+          $or: [
+            { _id: verifyUserDto.id },
+            { login: verifyUserDto.login },
+            { email: verifyUserDto.email },
+          ],
+        },
+        ['_id', 'login', 'email', 'password'],
+      )
+      .exec();
+    return user;
   }
 
-  async changePassword(
-    id: number,
-    changePasswordUserDto: ChangePasswordUserDto,
-  ) {
-    // todo: implement
-    const salt = await genSalt(10);
-    const hashedPassword = await hash(changePasswordUserDto.password, salt);
-    return `This action changes password a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    return await this.userModel.findOneAndUpdate(
+      { _id: id },
+      { ...updateUserDto },
+      { new: true },
+    );
   }
 
-  async changeSecret(id: number, changeSecretUserDto: ChangeSecretUserDto) {
-    // todo: implement
-    const salt = await genSalt(10);
-    const hashedPassword = await hash(changeSecretUserDto.password, salt);
-    const hashedSecret = await hash(changeSecretUserDto.secretAnswer, salt);
-    return `This action changes secret a #${id} user`;
-  }
+  // async changePassword(
+  //   id: string,
+  //   changePasswordUserDto: ChangePasswordUserDto,
+  // ) {
+  //   // todo: implement
+  //   const salt = await genSalt(10);
+  //   const hashedPassword = await hash(changePasswordUserDto.password, salt);
+  //   return `This action changes password a #${id} user`;
+  // }
 
-  async changeAvatar(
-    id: number,
-    changeAvatarUserDto: ChangeAvatarUserDto,
-    file: Express.Multer.File,
-  ) {
-    // todo: implement
-    return `This action changes avatar a #${id} user`;
-  }
+  // async changeSecret(id: string, changeSecretUserDto: ChangeSecretUserDto) {
+  //   // todo: implement
+  //   const salt = await genSalt(10);
+  //   const hashedPassword = await hash(changeSecretUserDto.password, salt);
+  //   const hashedSecret = await hash(changeSecretUserDto.secretAnswer, salt);
+  //   return `This action changes secret a #${id} user`;
+  // }
 
-  remove(id: number) {
+  // async changeAvatar(
+  //   id: string,
+  //   changeAvatarUserDto: ChangeAvatarUserDto,
+  //   file: Express.Multer.File,
+  // ) {
+  //   // todo: implement
+  //   return `This action changes avatar a #${id} user`;
+  // }
+
+  remove(id: string) {
     // todo: implement
     return `This action removes a #${id} user`;
   }
