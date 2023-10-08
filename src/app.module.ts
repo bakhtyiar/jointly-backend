@@ -11,6 +11,7 @@ import { ChatsModule } from './chats/chats.module';
 import { ConfigModule } from '@nestjs/config';
 import { join } from 'path';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { AuthModule } from './auth/auth.module';
 
 // todo: implement authentication
 // todo: implement guards for some routes and actions
@@ -32,6 +33,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
     MessagesModule,
     ReactionsModule,
     ChatsModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
