@@ -35,7 +35,7 @@
     "class-validator": "^0.14.0",
     "mime-types": "^2.1.35",
     "mongod": "^2.0.0",
-    "mongodb": "^6.1.0",
+    "mongodb": "^6.2.0",
     "mongodb-memory-server": "^9.0.0",
     "mongoose": "^7.5.3",
     "reflect-metadata": "^0.1.13",
