@@ -1,11 +1,11 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
 } from '@nestjs/common';
 import { PermissionsService } from './permissions.service';
 import { CreatePermissionDto } from './dto/create-permission.dto';
@@ -31,6 +31,11 @@ export class PermissionsController {
   findOne(@Param('id') id: string) {
     // todo: implement
     return this.permissionsService.findOne(+id);
+  }
+
+  @Patch('/regenerate')
+  regeneratePerms() {
+    return this.permissionsService.regeneratePerms();
   }
 
   @Patch(':id')
