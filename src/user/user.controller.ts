@@ -1,11 +1,12 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { UserService } from './user.service';
@@ -15,8 +16,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { fileNameGenerator } from '@src/utilities/generators/fileNameGenerator';
 import { fileFilter } from '@src/utilities/validators/fileValidator';
-import { LoginUserDto } from '@src/user/dto/login-user.dto';
 import { VerifyUserDto } from '@src/user/dto/verify-user.dto';
+import { AuthGuard } from '@src/auth/auth.guard';
 
 // noinspection TypeScriptValidateTypes
 @Controller('user')
@@ -38,6 +39,9 @@ export class UserController {
     return this.userService.findAll();
   }
 
+  // @Roles(['admin', 'myLogin111'])
+  // @UseGuards(AuthGuard, RolesGuard)
+  @UseGuards(AuthGuard)
   @Get(':id')
   findOneById(@Param('id') id: string) {
     return this.userService.findOneById(id);
@@ -48,6 +52,7 @@ export class UserController {
     return this.userService.findOneForVerifying(verifyUserDto);
   }
 
+  @UseGuards(AuthGuard)
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({

@@ -82,6 +82,11 @@ export class User {
   communities: Types.ObjectId[];
 
   @IsOptional()
+  @IsArray()
+  @Prop({ type: [{ type: SchemaMongoose.Types.ObjectId, ref: 'Roles' }] })
+  roles: Types.ObjectId[];
+
+  @IsOptional()
   @IsBoolean()
   @Prop()
   isDeleted: boolean;
