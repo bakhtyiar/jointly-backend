@@ -8,10 +8,12 @@ import { PermissionsModule } from './permissions/permissions.module';
 import { MessagesModule } from './messages/messages.module';
 import { ReactionsModule } from './reactions/reactions.module';
 import { ChatsModule } from './chats/chats.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { join } from 'path';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { AuthModule } from './auth/auth.module';
+import configuration, { configKeys } from '@src/config/configuration';
+import { RolesModule } from './roles/roles.module';
 
 // todo: implement authentication
 // todo: implement guards for some routes and actions
@@ -22,11 +24,18 @@ import { AuthModule } from './auth/auth.module';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['.env.local', '.env'],
+      load: [configuration],
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'data', 'files'),
     }),
-    MongooseModule.forRoot(process.env.MONGO_URI),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get<string>(configKeys.DB_URI),
+      }),
+      inject: [ConfigService],
+    }),
     CommunitiesModule,
     UserModule,
     PermissionsModule,
@@ -34,8 +43,10 @@ import { AuthModule } from './auth/auth.module';
     ReactionsModule,
     ChatsModule,
     AuthModule,
+    RolesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
+  exports: [AppService],
 })
 export class AppModule {}
