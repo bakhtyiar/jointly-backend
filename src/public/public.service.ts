@@ -11,7 +11,7 @@ export class PublicService {
   ) {}
 
   isPublic(context: ExecutionContext): boolean {
-    return this.reflector.getAllAndOverride(
+    return !!this.reflector.getAllAndOverride(
       this.configService.get(configKeys.IS_PUBLIC_KEY),
       [context.getHandler(), context.getClass()],
     );
