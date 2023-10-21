@@ -37,14 +37,14 @@ export class Chat {
   description: string;
 
   @Prop({
-    type: { type: SchemaMongoose.Types.ObjectId, ref: Chat.name },
+    type: { type: SchemaMongoose.Types.ObjectId, ref: 'Chat' },
   })
   inCommunityId: Types.ObjectId;
 
   @IsOptional()
   @IsArray()
   @ValidateNested({ each: true })
-  @Prop({ type: [{ type: SchemaMongoose.Types.ObjectId, ref: Message.name }] })
+  @Prop({ type: [{ type: SchemaMongoose.Types.ObjectId, ref: 'Message' }] })
   messages: Types.ObjectId[];
 
   @IsBoolean()

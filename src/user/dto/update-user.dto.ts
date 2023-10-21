@@ -79,7 +79,7 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsArray()
   @ValidateNested({ each: true })
   @Prop({
-    type: [{ type: SchemaMongoose.Types.ObjectId, ref: Community.name }],
+    type: [{ type: SchemaMongoose.Types.ObjectId, ref: 'Community' }],
   })
   communities: Types.ObjectId[];
 

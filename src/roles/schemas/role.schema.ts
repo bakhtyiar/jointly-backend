@@ -21,7 +21,7 @@ export class Role {
   @IsArray()
   @ValidateNested({ each: true })
   @Prop({
-    type: [{ type: SchemaMongoose.Types.ObjectId, ref: Permission.name }],
+    type: [{ type: SchemaMongoose.Types.ObjectId, ref: 'Permission' }],
   })
   permissions: Types.ObjectId[];
 
@@ -30,7 +30,7 @@ export class Role {
   @ArrayMinSize(1)
   @ValidateNested({ each: true })
   @Prop({
-    type: [{ type: SchemaMongoose.Types.ObjectId, ref: Community.name }],
+    type: [{ type: SchemaMongoose.Types.ObjectId, ref: 'Community' }],
   })
   forCommunities: Types.ObjectId[];
 
@@ -38,7 +38,7 @@ export class Role {
   @IsOptional()
   @IsArray()
   @ValidateNested({ each: true })
-  @Prop({ type: [{ type: SchemaMongoose.Types.ObjectId, ref: Chat.name }] })
+  @Prop({ type: [{ type: SchemaMongoose.Types.ObjectId, ref: 'Chat' }] })
   forChats: Types.ObjectId[];
 
   @IsOptional()

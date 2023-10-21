@@ -89,13 +89,13 @@ export class User {
   @IsArray()
   @ValidateNested({ each: true })
   @Prop({
-    type: [{ type: SchemaMongoose.Types.ObjectId, ref: Community.name }],
+    type: [{ type: SchemaMongoose.Types.ObjectId, ref: 'Community' }],
   })
   communities: Types.ObjectId[];
 
   @IsOptional()
   @IsArray()
-  @Prop({ type: [{ type: SchemaMongoose.Types.ObjectId, ref: Role.name }] })
+  @Prop({ type: [{ type: SchemaMongoose.Types.ObjectId, ref: 'Role' }] })
   roles: Types.ObjectId[];
 
   @IsOptional()

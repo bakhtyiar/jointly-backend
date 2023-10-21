@@ -32,28 +32,26 @@ export class Community {
 
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => Participant)
-  @Prop([{ type: Participant.name }])
-  participants: Participant[];
+  @Prop([{ type: SchemaMongoose.Types.ObjectId, ref: 'Participant' }])
+  participants: Types.ObjectId[];
 
   @IsArray()
   @ValidateNested({ each: true })
   @ArrayMinSize(1)
-  @Type(() => Participant)
-  @Prop([{ type: Participant.name }])
+  @Prop([{ type: SchemaMongoose.Types.ObjectId, ref: 'Participant' }])
   owners: Types.ObjectId[];
 
   @IsArray()
   @ValidateNested({ each: true })
   // @Type(() => User)
-  @Prop([{ type: SchemaMongoose.Types.ObjectId, ref: User.name }])
+  @Prop([{ type: SchemaMongoose.Types.ObjectId, ref: 'User' }])
   blockedUsers: Types.ObjectId[];
 
   @IsArray()
   @ValidateNested({ each: true })
   @ArrayMinSize(1)
   @Type(() => User)
-  @Prop([{ type: SchemaMongoose.Types.ObjectId, ref: Chat.name }])
+  @Prop([{ type: SchemaMongoose.Types.ObjectId, ref: 'Chat' }])
   chats: Types.ObjectId[];
 
   @IsBoolean()

@@ -11,7 +11,6 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { NoEmptyString } from '@src/utilities/validators/NoEmptyString';
-import { User } from '@src/user/schemas/user.schema';
 import { Reaction } from '@src/reactions/schemas/reaction.schema';
 
 export type MessageDocument = HydratedDocument<Message>;
@@ -26,7 +25,7 @@ export class Message {
   @Prop({ validate: [NoEmptyString] })
   content: [string];
 
-  @Prop({ type: SchemaMongoose.Types.ObjectId, ref: User.name })
+  @Prop({ type: SchemaMongoose.Types.ObjectId, ref: 'User' })
   author: Types.ObjectId;
 
   @IsDate()
@@ -39,17 +38,17 @@ export class Message {
   lastEditTime: Date;
 
   @IsOptional()
-  @Prop({ type: { type: SchemaMongoose.Types.ObjectId, ref: Message.name } })
+  @Prop({ type: { type: SchemaMongoose.Types.ObjectId, ref: 'Message' } })
   replyTo: Types.ObjectId[];
 
   @IsOptional()
   @IsArray()
-  @Prop({ type: [{ type: SchemaMongoose.Types.ObjectId, ref: Message.name }] })
+  @Prop({ type: [{ type: SchemaMongoose.Types.ObjectId, ref: 'Message' }] })
   replies: Types.ObjectId[];
 
   @IsOptional()
   @IsArray()
-  @Prop({ type: [{ type: SchemaMongoose.Types.ObjectId, ref: Reaction.name }] })
+  @Prop({ type: [{ type: SchemaMongoose.Types.ObjectId, ref: 'Reaction' }] })
   reactions: Types.ObjectId[];
 
   @IsBoolean()

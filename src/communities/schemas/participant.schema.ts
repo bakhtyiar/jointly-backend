@@ -12,7 +12,7 @@ export class Participant {
   avatar: string;
   @Prop({
     type: SchemaMongoose.Types.ObjectId,
-    ref: User.name,
+    ref: 'User',
   })
   userId: Types.ObjectId;
   @Prop({ type: String })
