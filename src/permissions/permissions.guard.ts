@@ -1,11 +1,22 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { Observable } from 'rxjs';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { PublicService } from '@src/public/public.service';
+import { AuthService } from '@src/auth/auth.service';
 
 @Injectable()
 export class PermissionsGuard implements CanActivate {
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
-    return true;
+  constructor(
+    private publicService: PublicService,
+    private authService: AuthService,
+  ) {}
+
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    if (this.publicService.isPublic(context)) return true;
+    if (this.authService.matchGlobalPermissions(context)) return true;
+    throw new UnauthorizedException();
   }
 }
