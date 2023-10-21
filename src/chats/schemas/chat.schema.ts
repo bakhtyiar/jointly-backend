@@ -9,6 +9,7 @@ import {
   MinLength,
   ValidateNested,
 } from 'class-validator';
+import { Message } from '@src/messages/schemas/message.schema';
 
 export type ChatDocument = HydratedDocument<Chat>;
 
@@ -36,14 +37,14 @@ export class Chat {
   description: string;
 
   @Prop({
-    type: { type: SchemaMongoose.Types.ObjectId, ref: 'Chat' },
+    type: { type: SchemaMongoose.Types.ObjectId, ref: Chat.name },
   })
   inCommunityId: Types.ObjectId;
 
   @IsOptional()
   @IsArray()
   @ValidateNested({ each: true })
-  @Prop({ type: [{ type: SchemaMongoose.Types.ObjectId, ref: 'Message' }] })
+  @Prop({ type: [{ type: SchemaMongoose.Types.ObjectId, ref: Message.name }] })
   messages: Types.ObjectId[];
 
   @IsBoolean()

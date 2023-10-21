@@ -10,6 +10,8 @@ import {
   MinLength,
   ValidateNested,
 } from 'class-validator';
+import { Community } from '@src/communities/schemas/community.schema';
+import { Role } from '@src/roles/schemas/role.schema';
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -38,6 +40,14 @@ export class User {
   })
   @Prop()
   name: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(50, {
+    message: 'Status is too long. Maximum length is $constraint1',
+  })
+  @Prop()
+  status: string;
 
   @IsString()
   @MinLength(8)
@@ -78,12 +88,14 @@ export class User {
   @IsOptional()
   @IsArray()
   @ValidateNested({ each: true })
-  @Prop({ type: [{ type: SchemaMongoose.Types.ObjectId, ref: 'Community' }] })
+  @Prop({
+    type: [{ type: SchemaMongoose.Types.ObjectId, ref: Community.name }],
+  })
   communities: Types.ObjectId[];
 
   @IsOptional()
   @IsArray()
-  @Prop({ type: [{ type: SchemaMongoose.Types.ObjectId, ref: 'Roles' }] })
+  @Prop({ type: [{ type: SchemaMongoose.Types.ObjectId, ref: Role.name }] })
   roles: Types.ObjectId[];
 
   @IsOptional()

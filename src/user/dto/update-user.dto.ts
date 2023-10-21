@@ -12,6 +12,7 @@ import {
 } from 'class-validator';
 import { Prop } from '@nestjs/mongoose';
 import { Schema as SchemaMongoose, Types } from 'mongoose';
+import { Community } from '@src/communities/schemas/community.schema';
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsOptional()
@@ -77,7 +78,9 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsOptional()
   @IsArray()
   @ValidateNested({ each: true })
-  @Prop({ type: [{ type: SchemaMongoose.Types.ObjectId, ref: 'Community' }] })
+  @Prop({
+    type: [{ type: SchemaMongoose.Types.ObjectId, ref: Community.name }],
+  })
   communities: Types.ObjectId[];
 
   @IsOptional()
