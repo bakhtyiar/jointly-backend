@@ -14,6 +14,8 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { AuthModule } from './auth/auth.module';
 import configuration, { configKeys } from '@src/config/configuration';
 import { RolesModule } from './roles/roles.module';
+import { PublicService } from './public/public.service';
+import { PublicModule } from './public/public.module';
 
 // todo: implement authentication
 // todo: implement guards for some routes and actions
@@ -44,9 +46,10 @@ import { RolesModule } from './roles/roles.module';
     ChatsModule,
     AuthModule,
     RolesModule,
+    PublicModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, PublicService],
   exports: [AppService],
 })
 export class AppModule {}
