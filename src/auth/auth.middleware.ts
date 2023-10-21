@@ -67,7 +67,7 @@ export class AuthMiddleware implements NestMiddleware {
           },
         ])
         .exec();
-      Object.assign(request.user, user);
+      Object.assign(request.user, user[0]);
     } catch {
       throw new NotFoundException(
         "Cannot aggregate user's roles and permissions",
