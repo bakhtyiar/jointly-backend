@@ -1,11 +1,13 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { UserModule } from '@src/user/user.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { configKeys } from '@src/config/configuration';
+import { PublicService } from '@src/public/public.service';
 
+@Global()
 @Module({
   imports: [
     UserModule,
@@ -21,7 +23,7 @@ import { configKeys } from '@src/config/configuration';
       inject: [ConfigService],
     }),
   ],
-  providers: [AuthService],
+  providers: [AuthService, PublicService],
   controllers: [AuthController],
   exports: [AuthService],
 })
