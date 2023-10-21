@@ -6,14 +6,18 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { PermissionsService } from './permissions.service';
 import { CreatePermissionDto } from './dto/create-permission.dto';
 import { UpdatePermissionDto } from './dto/update-permission.dto';
+import { AuthGuard } from '@src/auth/auth.guard';
 
+@UseGuards(AuthGuard)
 @Controller('permissions')
 export class PermissionsController {
   constructor(private readonly permissionsService: PermissionsService) {}
+
   // todo: guard for permitted people some unsafe actions, @get for everybody
   @Post()
   create(@Body() createPermissionDto: CreatePermissionDto) {
