@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { IsString } from 'class-validator';
+import { IsBoolean, IsOptional, IsString } from 'class-validator';
 
 export type ReactionDocument = HydratedDocument<Reaction>;
 
@@ -13,6 +13,11 @@ export class Reaction {
   @IsString()
   @Prop({ required: true, unique: true })
   media: string;
+
+  @IsOptional()
+  @IsBoolean()
+  @Prop()
+  isDeleted: boolean;
 }
 
 export const ReactionSchema = SchemaFactory.createForClass(Reaction);

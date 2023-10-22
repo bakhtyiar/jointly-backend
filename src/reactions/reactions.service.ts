@@ -1,31 +1,42 @@
 import { Injectable } from '@nestjs/common';
 import { CreateReactionDto } from './dto/create-reaction.dto';
 import { UpdateReactionDto } from './dto/update-reaction.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Reaction } from '@src/reactions/schemas/reaction.schema';
 
 @Injectable()
 export class ReactionsService {
-  create(createReactionDto: CreateReactionDto) {
-    // todo: implement
-    return 'This action adds a new reaction';
+  constructor(
+    @InjectModel(Reaction.name) private reactionModel: Model<Reaction>,
+  ) {}
+
+  async create(createReactionDto: CreateReactionDto) {
+    const createdUser = await new this.reactionModel(createReactionDto);
+    return createdUser.save();
   }
 
-  findAll() {
-    // todo: implement
-    return `This action returns all reactions`;
+  async findAll() {
+    return await this.reactionModel.find().exec();
   }
 
-  findOne(id: number) {
-    // todo: implement
-    return `This action returns a #${id} reaction`;
+  async findOne(id: string) {
+    return await this.reactionModel.findById(id).exec();
   }
 
-  update(id: number, updateReactionDto: UpdateReactionDto) {
-    // todo: implement
-    return `This action updates a #${id} reaction`;
+  async update(id: string, updateReactionDto: UpdateReactionDto) {
+    return await this.reactionModel.findOneAndUpdate(
+      { _id: id },
+      { ...updateReactionDto },
+      { new: true },
+    );
   }
 
-  remove(id: number) {
-    // todo: implement
-    return `This action removes a #${id} reaction`;
+  async remove(id: string) {
+    return await this.reactionModel.findOneAndUpdate(
+      { _id: id },
+      { isDeleted: true },
+      { new: true },
+    );
   }
 }
