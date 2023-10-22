@@ -9,7 +9,6 @@ import {
   MinLength,
   ValidateNested,
 } from 'class-validator';
-import { Message } from '@src/messages/schemas/message.schema';
 
 export type ChatDocument = HydratedDocument<Chat>;
 
@@ -47,6 +46,7 @@ export class Chat {
   @Prop({ type: [{ type: SchemaMongoose.Types.ObjectId, ref: 'Message' }] })
   messages: Types.ObjectId[];
 
+  @IsOptional()
   @IsBoolean()
   @Prop()
   isDeleted: boolean;
