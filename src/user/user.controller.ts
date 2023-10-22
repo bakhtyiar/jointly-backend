@@ -28,18 +28,11 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
-  // @Post('login')
-  // login(@Body() loginUserDto: LoginUserDto) {
-  //   return this.userService.login(loginUserDto);
-  // }
-
   @Get()
   findAll() {
     return this.userService.findAll();
   }
 
-  // @Roles(['admin', 'myLogin111'])
-  // @UseGuards(AuthGuard, RolesGuard)
   @UseGuards(AuthGuard)
   @Get(':id')
   findOneById(@Param('id') id: string) {
