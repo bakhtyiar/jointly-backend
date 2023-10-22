@@ -23,7 +23,6 @@ export class PermissionsController {
     return this.permissionsService.create(createPermissionDto);
   }
 
-  // @Public()
   @Get()
   findAll() {
     return this.permissionsService.findAll();
@@ -47,14 +46,12 @@ export class PermissionsController {
     @Param('id') id: string,
     @Body() updatePermissionDto: UpdatePermissionDto,
   ) {
-    // todo: implement
-    return this.permissionsService.update(+id, updatePermissionDto);
+    return this.permissionsService.update(id, updatePermissionDto);
   }
 
   @UseGuards(AuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
-    // todo: implement
-    return this.permissionsService.remove(+id);
+    return this.permissionsService.remove(id);
   }
 }

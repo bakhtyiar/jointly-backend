@@ -30,7 +30,7 @@ export class PermissionsService {
     return await this.permissionModel.findById(id).exec();
   }
 
-  async update(id: number, updatePermissionDto: UpdatePermissionDto) {
+  async update(id: string, updatePermissionDto: UpdatePermissionDto) {
     return await this.permissionModel.findOneAndUpdate(
       { _id: id },
       { ...updatePermissionDto },
@@ -55,7 +55,7 @@ export class PermissionsService {
     return await this.permissionModel.bulkWrite(operations);
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     return await this.permissionModel.findOneAndUpdate(
       { _id: id },
       { isDeleted: true },
