@@ -1,8 +1,8 @@
 import {
   CanActivate,
   ExecutionContext,
+  ForbiddenException,
   Injectable,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { PublicService } from '@src/public/public.service';
 import { AuthService } from '@src/auth/auth.service';
@@ -16,7 +16,8 @@ export class PermissionsGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     if (this.publicService.isPublic(context)) return true;
-    if (this.authService.matchGlobalPermissions(context)) return true;
-    throw new UnauthorizedException();
+    const matchedPerms = this.authService.matchGlobalPermissions(context);
+    if (matchedPerms) return true;
+    throw new ForbiddenException();
   }
 }
