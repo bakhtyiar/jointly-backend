@@ -56,7 +56,11 @@ export class UserController {
     }),
   )
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+    @UploadedFiles() files: Array<Express.Multer.File>,
+  ) {
     return this.userService.update(id, updateUserDto);
   }
 
