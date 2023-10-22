@@ -5,7 +5,6 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Reflector } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
 import { configKeys } from '@src/config/configuration';
 import { Request } from 'express';
@@ -19,7 +18,6 @@ import { Permission } from '@src/permissions/schemas/permission.schema';
 export class AuthMiddleware implements NestMiddleware {
   constructor(
     private jwtService: JwtService,
-    private reflector: Reflector,
     private configService: ConfigService,
     @InjectModel('User') private readonly userModel: Model<User>,
   ) {}
@@ -29,6 +27,7 @@ export class AuthMiddleware implements NestMiddleware {
       const token = this.extractTokenFromHeader(request);
       if (!token) {
         next();
+        return;
       }
       const jwtData = await this.jwtService.verifyAsync(token, {
         secret: this.configService.get(configKeys.JWT_KEY),
@@ -46,7 +45,7 @@ export class AuthMiddleware implements NestMiddleware {
         .aggregate([
           {
             $match: {
-              _id: request.user._id,
+              _id: request.user.sub,
             },
           },
           {
@@ -67,6 +66,7 @@ export class AuthMiddleware implements NestMiddleware {
           },
         ])
         .exec();
+
       Object.assign(request.user, user[0]);
     } catch {
       throw new NotFoundException(
@@ -74,6 +74,7 @@ export class AuthMiddleware implements NestMiddleware {
       );
     }
     next();
+    return;
   }
 
   private extractTokenFromHeader(request: Request): string | undefined {
