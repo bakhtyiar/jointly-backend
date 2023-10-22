@@ -13,35 +13,35 @@ import { CreatePermissionDto } from './dto/create-permission.dto';
 import { UpdatePermissionDto } from './dto/update-permission.dto';
 import { AuthGuard } from '@src/auth/auth.guard';
 
-@UseGuards(AuthGuard)
 @Controller('permissions')
 export class PermissionsController {
   constructor(private readonly permissionsService: PermissionsService) {}
 
-  // todo: guard for permitted people some unsafe actions, @get for everybody
+  @UseGuards(AuthGuard)
   @Post()
   create(@Body() createPermissionDto: CreatePermissionDto) {
-    // todo: implement
     return this.permissionsService.create(createPermissionDto);
   }
 
+  // @Public()
   @Get()
   findAll() {
-    // todo: implement
     return this.permissionsService.findAll();
   }
 
+  @UseGuards(AuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
-    // todo: implement
-    return this.permissionsService.findOne(+id);
+    return this.permissionsService.findOne(id);
   }
 
+  @UseGuards(AuthGuard)
   @Patch('/regenerate')
   regeneratePerms() {
     return this.permissionsService.regeneratePerms();
   }
 
+  @UseGuards(AuthGuard)
   @Patch(':id')
   update(
     @Param('id') id: string,
@@ -51,6 +51,7 @@ export class PermissionsController {
     return this.permissionsService.update(+id, updatePermissionDto);
   }
 
+  @UseGuards(AuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     // todo: implement
