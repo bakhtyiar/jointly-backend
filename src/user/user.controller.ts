@@ -19,7 +19,6 @@ import { fileFilter } from '@src/utilities/validators/fileValidator';
 import { VerifyUserDto } from '@src/user/dto/verify-user.dto';
 import { AuthGuard } from '@src/auth/auth.guard';
 
-// noinspection TypeScriptValidateTypes
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -52,6 +51,7 @@ export class UserController {
     return this.userService.findOneForVerifying(verifyUserDto);
   }
 
+  // noinspection TypeScriptValidateTypes
   @UseGuards(AuthGuard)
   @UseInterceptors(
     FileInterceptor('file', {
