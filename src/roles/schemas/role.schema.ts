@@ -8,9 +8,6 @@ import {
   ValidateIf,
   ValidateNested,
 } from 'class-validator';
-import { Chat } from '@src/chats/schemas/chat.schema';
-import { Community } from '@src/communities/schemas/community.schema';
-import { Permission } from '@src/permissions/schemas/permission.schema';
 
 export type RoleDocument = HydratedDocument<Role>;
 
@@ -45,6 +42,11 @@ export class Role {
   @IsBoolean()
   @Prop()
   isGlobal: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  @Prop()
+  isDeleted: boolean;
 }
 
 export const RoleSchema = SchemaFactory.createForClass(Role);
