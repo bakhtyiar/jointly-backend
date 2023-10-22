@@ -11,7 +11,6 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { NoEmptyString } from '@src/utilities/validators/NoEmptyString';
-import { Reaction } from '@src/reactions/schemas/reaction.schema';
 
 export type MessageDocument = HydratedDocument<Message>;
 
@@ -51,6 +50,7 @@ export class Message {
   @Prop({ type: [{ type: SchemaMongoose.Types.ObjectId, ref: 'Reaction' }] })
   reactions: Types.ObjectId[];
 
+  @IsOptional()
   @IsBoolean()
   @Prop()
   isDeleted: boolean;

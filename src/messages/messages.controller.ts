@@ -1,13 +1,13 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
-  UseInterceptors,
+  Get,
+  Param,
+  Patch,
+  Post,
   UploadedFiles,
+  UseInterceptors,
 } from '@nestjs/common';
 import { MessagesService } from './messages.service';
 import { CreateMessageDto } from './dto/create-message.dto';
@@ -17,10 +17,10 @@ import { diskStorage } from 'multer';
 import { fileFilter } from '../utilities/validators/fileValidator';
 import { fileNameGenerator } from '@src/utilities/generators/fileNameGenerator';
 
+//todo: implement guard , apply guard to private routes
 @Controller('messages')
 export class MessagesController {
   constructor(private readonly messagesService: MessagesService) {}
-  // todo: implement fix validation types
   // noinspection TypeScriptValidateTypes
   @Post()
   @UseInterceptors(
@@ -36,23 +36,19 @@ export class MessagesController {
     @Body() createMessageDto: CreateMessageDto,
     @UploadedFiles() files: Array<Express.Multer.File>,
   ) {
-    // todo: implement
     return this.messagesService.create(createMessageDto);
   }
 
   @Get()
   findAll() {
-    // todo: implement
     return this.messagesService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    // todo: implement
-    return this.messagesService.findOne(+id);
+    return this.messagesService.findOne(id);
   }
 
-  // todo: guard. only author can do this:
   // noinspection TypeScriptValidateTypes
   @Patch(':id')
   @UseInterceptors(
@@ -69,14 +65,11 @@ export class MessagesController {
     @Body() updateMessageDto: UpdateMessageDto,
     @UploadedFiles() files: Array<Express.Multer.File>,
   ) {
-    // todo: implement
-    return this.messagesService.update(+id, updateMessageDto);
+    return this.messagesService.update(id, updateMessageDto);
   }
 
-  // todo: guard. only author, moder, admin, superadmin can do this:
   @Delete(':id')
   remove(@Param('id') id: string) {
-    // todo: implement
-    return this.messagesService.remove(+id);
+    return this.messagesService.remove(id);
   }
 }
