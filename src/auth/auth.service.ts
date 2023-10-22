@@ -42,8 +42,7 @@ export class AuthService {
     const user = request.user;
     const path = request.route.path;
     const method = request.method;
-
-    return user.roles.find((role) => {
+    return user?.roles.find((role) => {
       return (
         role.permissions.some((permission) => {
           return permission.method === method && permission.path === path;
