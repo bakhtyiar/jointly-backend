@@ -26,7 +26,7 @@ export class PermissionsService {
     return await this.permissionModel.find().exec();
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     return await this.permissionModel.findById(id).exec();
   }
 
