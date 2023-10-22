@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -16,6 +16,8 @@ import configuration, { configKeys } from '@src/config/configuration';
 import { RolesModule } from './roles/roles.module';
 import { PublicService } from './public/public.service';
 import { PublicModule } from './public/public.module';
+import { AuthMiddleware } from '@src/auth/auth.middleware';
+import { User, UserSchema } from '@src/user/schemas/user.schema';
 
 // todo: implement authentication
 // todo: implement guards for some routes and actions
@@ -38,6 +40,7 @@ import { PublicModule } from './public/public.module';
       }),
       inject: [ConfigService],
     }),
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     CommunitiesModule,
     UserModule,
     PermissionsModule,
@@ -52,4 +55,8 @@ import { PublicModule } from './public/public.module';
   providers: [AppService, PublicService],
   exports: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(AuthMiddleware).forRoutes('*');
+  }
+}
