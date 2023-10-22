@@ -6,12 +6,11 @@ import {
   IsArray,
   IsBoolean,
   IsNotEmpty,
+  IsOptional,
   IsString,
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { Chat } from '@src/chats/schemas/chat.schema';
-import { Participant } from '@src/communities/schemas/participant.schema';
 
 export type CommunityDocument = HydratedDocument<Community>;
 
@@ -54,6 +53,7 @@ export class Community {
   @Prop([{ type: SchemaMongoose.Types.ObjectId, ref: 'Chat' }])
   chats: Types.ObjectId[];
 
+  @IsOptional()
   @IsBoolean()
   @Prop()
   isDeleted: boolean;

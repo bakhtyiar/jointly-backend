@@ -1,31 +1,42 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCommunityDto } from './dto/create-community.dto';
 import { UpdateCommunityDto } from './dto/update-community.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Community } from '@src/communities/schemas/community.schema';
 
 @Injectable()
 export class CommunitiesService {
-  create(createCommunityDto: CreateCommunityDto) {
-    // todo: implement
-    return 'This action adds a new community';
+  constructor(
+    @InjectModel(Community.name) private communityModel: Model<Community>,
+  ) {}
+
+  async create(createCommunityDto: CreateCommunityDto) {
+    const createdUser = await new this.communityModel(createCommunityDto);
+    return createdUser.save();
   }
 
-  findAll() {
-    // todo: implement
-    return `This action returns all communities`;
+  async findAll() {
+    return await this.communityModel.find().exec();
   }
 
-  findOne(id: number) {
-    // todo: implement
-    return `This action returns a #${id} community`;
+  async findOne(id: string) {
+    return await this.communityModel.findById(id).exec();
   }
 
-  update(id: number, updateCommunityDto: UpdateCommunityDto) {
-    // todo: implement
-    return `This action updates a #${id} community`;
+  async update(id: string, updateCommunityDto: UpdateCommunityDto) {
+    return await this.communityModel.findOneAndUpdate(
+      { _id: id },
+      { ...updateCommunityDto },
+      { new: true },
+    );
   }
 
-  remove(id: number) {
-    // todo: implement
-    return `This action removes a #${id} community`;
+  async remove(id: string) {
+    return await this.communityModel.findOneAndUpdate(
+      { _id: id },
+      { isDeleted: true },
+      { new: true },
+    );
   }
 }
